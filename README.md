@@ -2,11 +2,11 @@
 
 ## Stacks
 
--   React
--   Typescript
--   PostCSS
--   Tailwindcss
--   [The GitHub REST API](https://docs.github.com/en/rest)
+- React
+- Typescript
+- PostCSS
+- Tailwindcss
+- [The GitHub REST API](https://docs.github.com/en/rest)
 
 ## Available Scripts
 
