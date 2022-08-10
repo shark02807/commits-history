@@ -8,6 +8,12 @@
 - Tailwindcss
 - [The GitHub REST API](https://docs.github.com/en/rest)
 
+## Tools for development stage
+
+- ESlint
+- Prettier
+- Husky pre-commit (with lint-staged)
+
 ## Available Scripts
 
 Clone the repository:
