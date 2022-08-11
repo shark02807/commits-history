@@ -21,7 +21,11 @@ module.exports = {
   plugins: ['react', '@typescript-eslint'],
   rules: {
     'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
-    'import/extensions': [0, { allow: 'never' }]
+    'import/extensions': [0, { allow: 'never' }],
+    'jsx-a11y/aria-role': [0, { allow: 'never' }],
+    'react/function-component-definition': [0, { allow: 'never' }],
+    camelcase: [0, { allow: 'never' }],
+    'import/prefer-default-export': [0, { allow: 'never' }]
   },
   settings: {
     'import/resolver': {
