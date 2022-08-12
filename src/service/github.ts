@@ -1,36 +1,45 @@
 import { Octokit } from '@octokit/core';
 import { createCommit, Commit, CommitResponse } from '../model/commit';
+import { Repository } from '../context/Repository';
 
-const DEFAULT_OWNER = 'shark02807';
-const DEFAULT_REPO = 'commits-history';
-
-const octokit = new Octokit({
-  auth: process.env.GITHUB_ACCESS_TOKEN
-});
-
-export interface IGitHubService {
+export interface IGitHubAPIService {
   /**
    * Requests the server to load commits by owner and repo.
    * @returns The list of Commits.
    */
   // eslint-disable-next-line
-  loadCommits(owner: string, repo: string): Promise<Commit[]>;
+  loadCommits(repository: Repository): Promise<Commit[]>;
 }
 
-const loadCommits = async (
-  owner: string = DEFAULT_OWNER,
-  repo: string = DEFAULT_REPO
-): Promise<Commit[]> => {
-  const response = await octokit.request(`GET /repos/${owner}/${repo}/commits`, {
-    owner,
-    repo
-  });
+export default class GitHubAPIService implements IGitHubAPIService {
+  private _authToken: string | null;
 
-  const commits = response?.data?.map((commit: CommitResponse) => createCommit(commit));
+  private _octokit: Octokit;
 
-  return commits;
-};
+  constructor(_authToken: string | null) {
+    this._authToken = _authToken;
+    this._octokit = new Octokit({
+      auth: this._authToken
+    });
+  }
 
-export default {
-  loadCommits
-} as IGitHubService;
+  public init = (_authToken: string) => {
+    this._octokit = new Octokit({
+      auth: this._authToken
+    });
+  };
+
+  public loadCommits = async (repository: Repository): Promise<Commit[]> => {
+    const response = await this._octokit.request(
+      `GET /repos/${repository.owner}/${repository.repo}/commits`,
+      {
+        owner: repository.owner,
+        repo: repository.repo
+      }
+    );
+
+    const commits = response?.data?.map((commit: CommitResponse) => createCommit(commit));
+
+    return commits;
+  };
+}

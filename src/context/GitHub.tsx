@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useReducer } from 'react';
 import { ActionBase } from '../helper/reducer';
 import { Commit } from '../model/commit';
-import { IGitHubService } from '../service/github';
+import { IGitHubAPIService } from '../service/github';
+import { Repository } from './Repository';
 
 export interface IGitHubContext {
   /**
@@ -16,7 +17,7 @@ export interface IGitHubContext {
    * call to load commits.
    */
   // eslint-disable-next-line
-  loadCommits: (owner?: string, repo?: string) => void;
+  loadCommits: (repository: Repository | null) => void;
 }
 
 type GitHubActionType = 'load_commits' | 'load_commits_success' | 'load_commits_failure';
@@ -58,19 +59,18 @@ export const useGitHubContext = () => {
 
 interface IGitHubContextProvider {
   children: React.ReactNode;
-  gitHubService: IGitHubService;
+  gitHubService: IGitHubAPIService;
 }
 
 export const GitHubContextProvider = ({ children, gitHubService }: IGitHubContextProvider) => {
   const [state, dispatch] = useReducer(reducer, {
     ...INITIAL_STATE,
-    loadCommits: async (owner: string, repo: string) => {
+    loadCommits: async (repository: Repository) => {
       dispatch({ type: 'load_commits' });
-
       try {
         dispatch({
           type: 'load_commits_success',
-          payload: { commits: await gitHubService.loadCommits(owner, repo) }
+          payload: { commits: await gitHubService.loadCommits(repository) }
         });
       } catch {
         dispatch({

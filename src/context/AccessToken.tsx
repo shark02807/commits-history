@@ -5,7 +5,7 @@ import { ISessionStorageService } from '../service/session-storage';
 const GITHUB_ACCESS_TOKEN_KEY = 'github_access_token';
 
 export interface IAccessTokenContext {
-  token?: string | null | undefined;
+  token: string | null;
   getToken: () => string;
   setToken: (token: string) => void;
 }
@@ -19,16 +19,16 @@ type Action<
 
 type AccessTokenAction =
   | Action<'get_token'>
-  | Action<'get_token_success', { token: string | null | undefined }>
+  | Action<'get_token_success', { token: string }>
   | Action<'get_token_failure'>
-  | Action<'set_token', { token: string | null | undefined }>;
+  | Action<'set_token', { token: string }>;
 
 function reducer(state: IAccessTokenContext, action: AccessTokenAction): IAccessTokenContext {
   switch (action.type) {
     case 'get_token_success':
       return { ...state, token: action.payload.token };
     case 'get_token_failure':
-      return { ...state, token: null };
+      return { ...state, token: '' };
     case 'set_token':
       return { ...state, token: action.payload.token };
     default:
@@ -37,7 +37,7 @@ function reducer(state: IAccessTokenContext, action: AccessTokenAction): IAccess
 }
 
 export const INITIAL_STATE: IAccessTokenContext = {
-  token: '',
+  token: null,
   getToken: () => '',
   setToken: () => {}
 };

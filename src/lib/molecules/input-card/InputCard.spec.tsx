@@ -5,7 +5,7 @@ describe('InputCard', () => {
   it('should render InputCard component', () => {
     const labelName = 'input-card-labelName';
 
-    render(<InputCard label={labelName} />);
+    render(<InputCard label={labelName} value="" onChange={() => {}} />);
 
     const inputLabel = screen.queryByText(labelName);
     expect(inputLabel).toBeInTheDocument();

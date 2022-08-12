@@ -3,9 +3,10 @@ import CommitApp from './commits/CommitsApp';
 import MainTemplate from './templates/MainTemplate';
 
 // Context
-import { GitHubContextProvider } from './context/GitHub';
-import gitHubService from './service/github';
 import { AccessTokenContextProvider } from './context/AccessToken';
+import { RepositoryContextProvider } from './context/Repository';
+
+// Services
 import sessionStorageService from './service/session-storage';
 
 interface IProviders {
@@ -15,7 +16,7 @@ interface IProviders {
 function Providers({ children }: IProviders) {
   return (
     <AccessTokenContextProvider sessionStorageService={sessionStorageService}>
-      <GitHubContextProvider gitHubService={gitHubService}>{children}</GitHubContextProvider>
+      <RepositoryContextProvider>{children}</RepositoryContextProvider>
     </AccessTokenContextProvider>
   );
 }
