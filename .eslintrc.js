@@ -31,6 +31,7 @@ module.exports = {
     'react/react-in-jsx-scope': [0, { allow: 'never' }],
     'no-useless-computed-key': [0, { allow: 'never' }],
     'no-unused-vars': [0, { allow: 'never' }],
+    'no-underscore-dangle': [0, { allow: 'never' }]
   },
   settings: {
     'import/resolver': {

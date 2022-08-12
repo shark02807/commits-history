@@ -1,35 +1,41 @@
 /* eslint no-console: 0 */
 import React, { useEffect } from 'react';
-import { useGitHubContext } from '../context/GitHub';
+import { GitHubContextProvider } from '../context/GitHub';
+import GitHubAPIService, { IGitHubAPIService } from '../service/github';
 import { useAccessTokenContext } from '../context/AccessToken';
+import { useRepositoryContext } from '../context/Repository';
 import GitHubTokenCard from './organisms/github-token-card/GitHubTokenCard';
+import GitHubRepoForm from './organisms/github-repo-form/GitHubRepoForm';
+import CommitsList from './organisms/commit-list/CommitsList';
+
+interface IProviders {
+  children: React.ReactNode;
+  gitHubService: IGitHubAPIService;
+}
+
+const Providers = ({ gitHubService, children }: IProviders) => {
+  return <GitHubContextProvider gitHubService={gitHubService}>{children}</GitHubContextProvider>;
+};
 
 const CommitApp = () => {
-  const { commits, isLoading, loadCommits } = useGitHubContext();
   const { token, getToken, setToken } = useAccessTokenContext();
-
-  useEffect(() => {
-    loadCommits();
-  }, [loadCommits]);
+  const { repository, setRepository } = useRepositoryContext();
 
   useEffect(() => {
     getToken();
   }, [getToken]);
 
-  if (isLoading) {
-    return <div>loading...</div>;
-  }
+  const gitHubService = new GitHubAPIService(token);
 
   return (
-    <div className="flex flex-col w-full pb-28">
-      <div>COMMITS APP</div>
-      <GitHubTokenCard token={token} setToken={setToken} />
-      <div>
-        {commits?.map((commit) => (
-          <div>{commit.message}</div>
-        ))}
+    <Providers gitHubService={gitHubService}>
+      <div className="flex flex-col w-full pb-28">
+        <div>COMMITS APP</div>
+        <GitHubTokenCard token={token} setToken={setToken} />
+        <GitHubRepoForm repository={repository} setRepository={setRepository} />
+        <CommitsList />
       </div>
-    </div>
+    </Providers>
   );
 };
 

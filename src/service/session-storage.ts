@@ -1,7 +1,7 @@
 /* eslint no-console: 0 */
 export interface ISessionStorageService {
   setItem(key: string, token: string): void;
-  getItem(key: string): string | null | undefined;
+  getItem(key: string): string;
 }
 
 const setItem = (key: string, value: string): void => {
@@ -17,7 +17,7 @@ const getItem = (key: string): string | null | undefined => {
     return window?.sessionStorage?.getItem(key);
   } catch {
     console.log('There are no such property in Session Storage');
-    return null;
+    return '';
   }
 };
 
