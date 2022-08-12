@@ -9,7 +9,8 @@ export interface CommitResponse {
   };
   author: {
     login: string;
-  };
+    avatar_url: string;
+  } | null;
 }
 
 export interface Commit {
@@ -18,6 +19,7 @@ export interface Commit {
   date: string;
   message: string;
   author: string;
+  author_avatar: string;
 }
 
 export function createCommit(commitData: CommitResponse): Commit {
@@ -28,6 +30,7 @@ export function createCommit(commitData: CommitResponse): Commit {
     sha,
     date: commit.author.date,
     message: commit.message,
-    author: author.login
+    author: author?.login || '',
+    author_avatar: author?.avatar_url || ''
   };
 }
