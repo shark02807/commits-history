@@ -9,7 +9,7 @@ export interface IInput {
 const Input = ({ value, className, onChangeHandler }: IInput) => {
   return (
     <input
-      className={`rounded-full h-7 w-30 ring-2 ring-white ${className}`}
+      className={`rounded h-7 w-30 ring-2 ring-gray-200 p-1 ${className}`}
       role="input"
       value={value}
       onChange={onChangeHandler}

@@ -31,25 +31,48 @@ const GitHubRepoForm = ({ repository, setRepository }: IGitHubRepoForm) => {
     setRepoValue(value);
   };
 
+  const isButtonDisabled = !ownerValue.trim() || !repoValue.trim();
+
   return (
-    <div>
+    <div className="mt-5 w-85 flex flex-col items-center">
       {repositoryValue?.owner ? (
-        <div>
-          <div>
-            <div>Repository</div>
-            <div>Owner: {repositoryValue.owner}</div>
-            <div>Repo: {repositoryValue.repo}</div>
+        <div className="flex flex-col items-center w-full">
+          <div className="text-lg font-normal">Repository credentials</div>
+          <div className="mt-3 flex justify-between items-center">
+            Owner: <span className="font-medium ml-2">{repositoryValue.owner}</span>
           </div>
-          <Button type={ButtonType.Default} onClick={handleChangeButtonClick}>
+          <div className="mt-2 flex justify-between items-center">
+            Repo: <span className="font-medium ml-2">{repositoryValue.repo}</span>
+          </div>
+          <Button
+            type={ButtonType.Default}
+            onClick={handleChangeButtonClick}
+            className="mt-4 w-full"
+          >
             Change repo
           </Button>
         </div>
       ) : (
         <div>
-          <div>Please enter GitHub repository data</div>
-          <InputCard label="Owner" value={ownerValue} onChange={onOwnerInputChange} />
-          <InputCard label="Repo" value={repoValue} onChange={onRepoInputChange} />
-          <Button type={ButtonType.Filled} onClick={handleSaveButtonClick}>
+          <div className="text-lg font-normal">Please enter GitHub repository credentials</div>
+          <InputCard
+            label="Owner"
+            value={ownerValue}
+            onChange={onOwnerInputChange}
+            className="mt-3 flex justify-between"
+          />
+          <InputCard
+            label="Repo"
+            value={repoValue}
+            onChange={onRepoInputChange}
+            className="mt-2 flex justify-between"
+          />
+          <Button
+            type={ButtonType.Filled}
+            onClick={handleSaveButtonClick}
+            className="mt-4 w-full"
+            disabled={isButtonDisabled}
+          >
             Use this repo
           </Button>
         </div>

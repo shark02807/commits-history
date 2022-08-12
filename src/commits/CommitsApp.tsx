@@ -1,6 +1,7 @@
 /* eslint no-console: 0 */
 import React, { useEffect } from 'react';
 import { GitHubContextProvider } from '../context/GitHub';
+import { CurrentTimeContextProvider } from '../context/CurrentTime';
 import GitHubAPIService, { IGitHubAPIService } from '../service/github';
 import { useAccessTokenContext } from '../context/AccessToken';
 import { useRepositoryContext } from '../context/Repository';
@@ -14,7 +15,11 @@ interface IProviders {
 }
 
 const Providers = ({ gitHubService, children }: IProviders) => {
-  return <GitHubContextProvider gitHubService={gitHubService}>{children}</GitHubContextProvider>;
+  return (
+    <GitHubContextProvider gitHubService={gitHubService}>
+      <CurrentTimeContextProvider>{children}</CurrentTimeContextProvider>
+    </GitHubContextProvider>
+  );
 };
 
 const CommitApp = () => {
@@ -29,8 +34,8 @@ const CommitApp = () => {
 
   return (
     <Providers gitHubService={gitHubService}>
-      <div className="flex flex-col w-full pb-28">
-        <div>COMMITS APP</div>
+      <div className="flex flex-col w-full pb-28 items-center pt-5">
+        <div className="text-2xl font-semibold">COMMITS APP</div>
         <GitHubTokenCard token={token} setToken={setToken} />
         <GitHubRepoForm repository={repository} setRepository={setRepository} />
         <CommitsList />
