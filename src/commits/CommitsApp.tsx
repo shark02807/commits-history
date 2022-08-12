@@ -1,7 +1,6 @@
 /* eslint no-console: 0 */
 import React, { useEffect } from 'react';
 import { GitHubContextProvider } from '../context/GitHub';
-import { CurrentTimeContextProvider } from '../context/CurrentTime';
 import GitHubAPIService, { IGitHubAPIService } from '../service/github';
 import { useAccessTokenContext } from '../context/AccessToken';
 import { useRepositoryContext } from '../context/Repository';
@@ -15,11 +14,7 @@ interface IProviders {
 }
 
 const Providers = ({ gitHubService, children }: IProviders) => {
-  return (
-    <GitHubContextProvider gitHubService={gitHubService}>
-      <CurrentTimeContextProvider>{children}</CurrentTimeContextProvider>
-    </GitHubContextProvider>
-  );
+  return <GitHubContextProvider gitHubService={gitHubService}>{children}</GitHubContextProvider>;
 };
 
 const CommitApp = () => {
