@@ -3,14 +3,13 @@ import { Commit } from '../../../model/commit';
 import Card from '../../../lib/atoms/card/Card';
 import Profile from '../../../lib/atoms/profile/Profile';
 import { getPassedTime } from '../../../helper/utils';
-import { useCurrentTimeContext } from '../../../context/CurrentTime';
 
 export interface ICommitCard {
   commit: Commit;
+  currentTime: Date;
 }
 
-const CommitCard = ({ commit }: ICommitCard) => {
-  const { currentTime } = useCurrentTimeContext();
+const CommitCard = ({ commit, currentTime }: ICommitCard) => {
   const passedTime = getPassedTime(commit.date, currentTime);
 
   return (

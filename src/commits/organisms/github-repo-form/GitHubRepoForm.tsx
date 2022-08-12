@@ -17,6 +17,8 @@ const GitHubRepoForm = ({ repository, setRepository }: IGitHubRepoForm) => {
   const handleSaveButtonClick = () => {
     setRepositoryValue({ owner: ownerValue, repo: repoValue });
     setRepository({ owner: ownerValue, repo: repoValue });
+    setOwnerValue('');
+    setRepoValue('');
   };
 
   const handleChangeButtonClick = () => {

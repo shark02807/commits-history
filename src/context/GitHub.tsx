@@ -8,7 +8,7 @@ export interface IGitHubContext {
   /**
    * The list of commits.
    */
-  commits?: Commit[];
+  commits?: Commit[] | null;
   /**
    * Whether the commits are loading.
    */
@@ -35,18 +35,18 @@ type GitHubAction =
 function reducer(state: IGitHubContext, action: GitHubAction): IGitHubContext {
   switch (action.type) {
     case 'load_commits':
-      return { ...state, isLoading: true };
+      return { ...state, commits: null, isLoading: true };
     case 'load_commits_success':
       return { ...state, commits: action.payload.commits, isLoading: false };
     case 'load_commits_failure':
-      return { ...state, isLoading: false };
+      return { ...state, commits: null, isLoading: false };
     default:
       return state;
   }
 }
 
 export const INITIAL_STATE: IGitHubContext = {
-  commits: [],
+  commits: null,
   isLoading: undefined,
   loadCommits: () => {}
 };
