@@ -12,11 +12,11 @@ import useCurrentDateInterval from './hooks/useCurrentDateInterval';
 const COUNT_DOWN_SECONDS = 30;
 
 const CommitsList = () => {
-  const { commits, isLoading, loadCommits } = useGitHubContext();
+  const { commits, error, isLoading, loadCommits } = useGitHubContext();
   const { repository } = useRepositoryContext();
   const { token } = useAccessTokenContext();
 
-  const isListReady = !!(!isLoading && commits && repository && token);
+  const isListReady = !!(repository && token && !isLoading && !error && commits);
   const currentTime = useCurrentDateInterval(isListReady);
 
   const [countDown, setCountDown] = useState(COUNT_DOWN_SECONDS);
@@ -30,7 +30,9 @@ const CommitsList = () => {
   }, [countDown]);
 
   useEffect(() => {
-    loadCommits(repository);
+    if (repository) {
+      loadCommits(repository);
+    }
   }, [loadCommits, repository]);
 
   const refreshCommits = () => {
@@ -42,6 +44,11 @@ const CommitsList = () => {
     <div className="mt-7 w-full max-w-lg border-t-2 pt-4 border-slate-400">
       {isLoading ? (
         <div className="text-xl font-semibold flex justify-center">loading...</div>
+      ) : null}
+      {error ? (
+        <div className="text-xl font-semibold flex justify-center">
+          Repository was not found. Please check credentials.
+        </div>
       ) : null}
       {isListReady ? (
         <>

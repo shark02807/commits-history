@@ -4,6 +4,14 @@ import { Commit } from '../model/commit';
 import { IGitHubAPIService } from '../service/github';
 import { Repository } from './Repository';
 
+interface Error {
+  response: {
+    data: {
+      message: string;
+    };
+  };
+}
+
 export interface IGitHubContext {
   /**
    * The list of commits.
@@ -13,6 +21,10 @@ export interface IGitHubContext {
    * Whether the commits are loading.
    */
   isLoading?: boolean;
+  /**
+   * Error during loading.
+   */
+  error?: string | null;
   /**
    * call to load commits.
    */
@@ -30,16 +42,16 @@ type Action<
 type GitHubAction =
   | Action<'load_commits'>
   | Action<'load_commits_success', { commits: Commit[] }>
-  | Action<'load_commits_failure'>;
+  | Action<'load_commits_failure', { error: string }>;
 
 function reducer(state: IGitHubContext, action: GitHubAction): IGitHubContext {
   switch (action.type) {
     case 'load_commits':
-      return { ...state, commits: null, isLoading: true };
+      return { ...state, commits: null, error: null, isLoading: true };
     case 'load_commits_success':
-      return { ...state, commits: action.payload.commits, isLoading: false };
+      return { ...state, commits: action.payload.commits, error: null, isLoading: false };
     case 'load_commits_failure':
-      return { ...state, commits: null, isLoading: false };
+      return { ...state, commits: null, isLoading: false, error: action.payload.error };
     default:
       return state;
   }
@@ -48,6 +60,7 @@ function reducer(state: IGitHubContext, action: GitHubAction): IGitHubContext {
 export const INITIAL_STATE: IGitHubContext = {
   commits: null,
   isLoading: undefined,
+  error: null,
   loadCommits: () => {}
 };
 
@@ -72,9 +85,10 @@ export const GitHubContextProvider = ({ children, gitHubService }: IGitHubContex
           type: 'load_commits_success',
           payload: { commits: await gitHubService.loadCommits(repository) }
         });
-      } catch {
+      } catch (e) {
         dispatch({
-          type: 'load_commits_failure'
+          type: 'load_commits_failure',
+          payload: { error: (e as Error)?.response?.data?.message }
         });
       }
     }
