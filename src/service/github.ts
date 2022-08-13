@@ -23,12 +23,6 @@ export default class GitHubAPIService implements IGitHubAPIService {
     });
   }
 
-  public init = (_authToken: string) => {
-    this._octokit = new Octokit({
-      auth: this._authToken
-    });
-  };
-
   public loadCommits = async (repository: Repository): Promise<Commit[]> => {
     const response = await this._octokit.request(
       `GET /repos/${repository.owner}/${repository.repo}/commits`,
