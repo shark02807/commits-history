@@ -12,9 +12,7 @@ describe('GitHubTokenCard', () => {
   it('should render GitHubTokenCard component with token', () => {
     render(<GitHubTokenCard token="token" setToken={() => {}} />);
 
-    const tokenExistsText = screen.getByText(
-      'GitHub Access Token found. You can check commits history now.'
-    );
+    const tokenExistsText = screen.getByText('GitHub Access Token is set');
     expect(tokenExistsText).toBeInTheDocument();
   });
 });
