@@ -2,6 +2,9 @@
 
 An application that shows the git commit history of the master (main) branch of the repository where the code is located.
 
+## Public URL
+[Commit History App](https://shark02807.github.io/commits-history/)
+
 - [Installation](#installation)
 - [Usage](#usage)
 - [Tests](#tests)
