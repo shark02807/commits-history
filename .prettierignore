@@ -1,5 +1,6 @@
 # Ignore artifacts:
 .eslintrc.js
+/build
 
 # Ignore all HTML files:
 *.html

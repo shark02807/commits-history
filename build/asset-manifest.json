@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/commits-history/static/css/main.2df97583.css",
+    "main.js": "/commits-history/static/js/main.dc5103a7.js",
+    "static/js/787.89398b83.chunk.js": "/commits-history/static/js/787.89398b83.chunk.js",
+    "static/media/check.png": "/commits-history/static/media/check.678de60e43e3ee35e611.png",
+    "index.html": "/commits-history/index.html",
+    "main.2df97583.css.map": "/commits-history/static/css/main.2df97583.css.map",
+    "main.dc5103a7.js.map": "/commits-history/static/js/main.dc5103a7.js.map",
+    "787.89398b83.chunk.js.map": "/commits-history/static/js/787.89398b83.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2df97583.css",
+    "static/js/main.dc5103a7.js"
+  ]
+}
